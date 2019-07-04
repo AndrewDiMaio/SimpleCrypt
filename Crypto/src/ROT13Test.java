@@ -1,4 +1,11 @@
+package src;
+
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -70,6 +77,8 @@ public class ROT13Test {
         String actual2 = cipher.decrypt(Q2);
         System.out.println(Q2);
         System.out.println(A2);
+        System.out.println("a" + actual2);
+        System.out.println("e" + A2);
         // Then
         assertTrue(actual2.equals(A2));
     }
@@ -88,4 +97,22 @@ public class ROT13Test {
         assertTrue(actual.equals(Q1));
     }
 
+    @Test
+    public void encrypt() throws IOException {
+        ROT13 cipher = new ROT13('a','n');
+        BufferedReader br = new BufferedReader(new FileReader("sonnet18.txt"));
+        StringBuilder sb = new StringBuilder();
+
+        String line = br.readLine();
+        while (line != null) {
+            sb.append(line).append("\n");
+            line = br.readLine();
+        }
+
+        String fileAsString = sb.toString();
+        String encrypted = cipher.encrypt(fileAsString);
+        System.out.println(encrypted);
+        String fixed = cipher.decrypt(encrypted);
+        System.out.println(fixed);
+    }
 }
